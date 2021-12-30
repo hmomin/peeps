@@ -3,22 +3,23 @@
 </p>
 
 # Table of Contents
-* [Introduction](#introduction)
-    * [Benefits](#benefits)
-    * [Drawbacks](#drawbacks)
-* [Installation on Windows](#installation-on-windows)
-    * [Installing Blender](#installing-blender)
-        * [Configuring Startup Behavior](#configuring-startup-behavior)
-    * [Installing Python](#installing-python)
-    * [Installing FFmpeg](#installing-ffmpeg)
-    * [Installing LaTeX](#installing-latex)
-    * [Installing peeps](#installing-peeps)
-* [Trying Out Your First Script](#trying-out-your-first-script)
-    * [Running the Script](#running-the-script)
-    * [Rendering Animations](#rendering-animations)
-    * [Going Beyond the Basics](#going-beyond-the-basics)
-* [Contributing](#contributing)
-* [License](#license)
+
+- [Introduction](#introduction)
+  - [Benefits](#benefits)
+  - [Drawbacks](#drawbacks)
+- [Installation on Windows](#installation-on-windows)
+  - [Installing Blender](#installing-blender)
+    - [Configuring Startup Behavior](#configuring-startup-behavior)
+  - [Installing Python](#installing-python)
+  - [Installing FFmpeg](#installing-ffmpeg)
+  - [Installing LaTeX](#installing-latex)
+  - [Installing peeps](#installing-peeps)
+- [Trying Out Your First Script](#trying-out-your-first-script)
+  - [Running the Script](#running-the-script)
+  - [Rendering Animations](#rendering-animations)
+  - [Going Beyond the Basics](#going-beyond-the-basics)
+- [Contributing](#contributing)
+- [License](#license)
 
 # Introduction
 
@@ -30,9 +31,9 @@ Peeps is a programmatic animation library that runs on Blender 2.80 and Python 3
 
 ## Benefits
 
-* It's highly documented. Almost every single class/function contains detailed documentation of its inner workings.
-* Everything is rendered in 3D, which avoids any need to offer separate functionality for 2D and 3D scenes.
-* It takes advantage of all the built-in functionality in Blender 2.80, including a GUI that illustrates what rendered animations would look like without actually rendering any videos. This rapid feedback makes coding animations with peeps very fast compared to alternative methods.
+- It's highly documented. Almost every single class/function contains detailed documentation of its inner workings.
+- Everything is rendered in 3D, which avoids any need to offer separate functionality for 2D and 3D scenes.
+- It takes advantage of all the built-in functionality in Blender 2.80, including a GUI that illustrates what rendered animations would look like without actually rendering any videos. This rapid feedback makes coding animations with peeps very fast compared to alternative methods.
 
 <p align="center">
   <img src="https://choyvpa.peepphysics.com/documentation_images/02_rapid_feedback.gif" width="100%" alt="rapid feedback">
@@ -40,8 +41,8 @@ Peeps is a programmatic animation library that runs on Blender 2.80 and Python 3
 
 ## Drawbacks
 
-* It requires many dependencies in order to get set up properly: namely, Blender 2.80, Python 3.7, FFmpeg, and (optional, but recommended) LaTeX. Many older computers won't support Blender 2.80, in which case, peeps is useless.
-* It requires some minimal working knowledge of the Blender interface. There are many free tutorials for Blender available, including [this playlist](https://www.youtube.com/playlist?list=PLa1F2ddGya_-UvuAqHAksYnB0qL9yWDO6). Just the first five videos in this playlist are more than enough to get up to speed. Additionally, to get the most out of peeps, the stronger your working knowledge of Python, the better off you will be.
+- It requires many dependencies in order to get set up properly: namely, Blender 2.80, Python 3.7, FFmpeg, and (optional, but recommended) LaTeX. Many older computers won't support Blender 2.80, in which case, peeps is useless.
+- It requires some minimal working knowledge of the Blender interface. There are many free tutorials for Blender available, including [this playlist](https://www.youtube.com/playlist?list=PLa1F2ddGya_-UvuAqHAksYnB0qL9yWDO6). Just the first five videos in this playlist are more than enough to get up to speed. Additionally, to get the most out of peeps, the stronger your working knowledge of Python, the better off you will be.
 
 # Installation on Windows
 
@@ -52,9 +53,11 @@ The ability to use peeps is dependent on your computer's ability to run Blender 
 ### Configuring Startup Behavior
 
 After that, there are some optional things you can do that will make your life easier, especially if you've never used Blender before. You will want to navigate to
+
 ```
 C:\Users\<YOUR_USERNAME_HERE>\AppData\Roaming\Blender Foundation\Blender\2.80\config
 ```
+
 and replace `startup.blend` and `userpref.blend` with the corresponding files in this repository. This will provide you with all the custom settings I use in Blender that are conducive to scripting animations. If you can't see the `AppData` folder, you may need to [enable viewing hidden folders](https://support.microsoft.com/en-us/help/4028316/windows-view-hidden-files-and-folders-in-windows-10).
 
 <p align="center">
@@ -111,6 +114,7 @@ The last step before we get rollin' is to open the `constants.py` file in an edi
 # Trying Out Your First Script
 
 We're finally ready to start animating! Choose a directory to place your Blender scripts and make a new `.py` file with the following content:
+
 ```python
 import importlib
 import peeps
@@ -127,7 +131,9 @@ intro()
 
 script_terminate(start_time)
 ```
+
 Let's go over what all this means. The beginning of each script should contain an import for peeps; you will have to reload it with `importlib`, because Blender is special like that. From there, you'll want to grab the starting time for timing purposes (`start_time`), the Frame object for this script (`f`), and the camera (`cam`), while initializing the script:
+
 ```python
 import importlib
 import peeps
@@ -135,13 +141,17 @@ importlib.reload(peeps)
 from peeps import *  # pylint: disable=unused-wildcard-import
 (start_time, f, cam) = script_init(__file__, False)
 ```
+
 Passing in `False` to `script_init()` will prevent any renders from being output (probably a good idea if you're in the middle of writing your script). Once you're all done with your script, you can change that `False` to `True`, run the script, and Blender will render all animations as mini-videos that you can then stitch together in your favorite video-editing software.
 
 At the end of your script, it helps to have
+
 ```python
 script_terminate(start_time)
 ```
+
 to give you a gauge for the amount of time your script ran for. Everything in between is the bread and butter of the script:
+
 ```python
 def intro():
     t1 = TextHelvetica("it works!")
@@ -150,6 +160,7 @@ def intro():
 
 intro()
 ```
+
 Here, we're creating a `TextHelvetica` object and animating it in with the `titleIn()` function. At the end of each scene (wrapped in a function), I like to call `end_scene()`, which gives me a gauge for what variables are still on the stack. Passing in `False` as the last argument will avoid clearing the entire scene, while passing in `True` will give you a fresh start for the next scene.
 
 ## Running the Script
@@ -169,9 +180,11 @@ Now, if you followed my recommendation above regarding replacing the default `us
 ## Rendering Animations
 
 Exciting! We've come a long way, but how do we take this to the finish line? What we see on the screen here is the end result of calling `titleIn()` on `t1`, but we haven't actually seen the animated sequence of the letters flipping in. The only way to do that is to render out the animation called by `f.play()` into a video. To do this, simply change the call to `script_init()` by either removing the last `False` altogether or changing it to `True` in your favorite external editor:
+
 ```python
 (start_time, f, cam) = script_init(__file__)
 ```
+
 To reload the script into Blender, hover over the Blender text editor and apply the keyboard shortcut `Alt+R` twice to reload the script and then `Alt+F` to run it again. This time, you'll notice Blender will freeze up. If you look at the Blender console, which is the second Blender window separate from the GUI, you'll see some `Saved` messages start to pop up like this:
 
 <p align="center">
