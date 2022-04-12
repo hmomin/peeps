@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://choyvpa.peepphysics.com/documentation_images/00_title_image.png" width="100%" alt="logo">
+  <img src="https://dr3ngl797z54v.cloudfront.net/peeps/00_title_image.png" width="100%" alt="logo">
 </p>
 
 # Table of Contents
@@ -26,7 +26,7 @@
 Peeps is a programmatic animation library that runs on Blender 2.80 and Python 3. It's used to make the animated videos on [peepphysics.com](https://peepphysics.com). Currently, there are many popular ways to animate within Python, including [Matplotlib](https://github.com/matplotlib/matplotlib), [turtle](https://github.com/python/cpython/blob/master/Lib/turtle.py), and [manim](https://github.com/3b1b/manim). However, while Matplotlib and turtle are highly limited in their functionality but easy to use, manim possesses the opposite trait: it is extremely functional, but notoriously difficult to use. Peeps presents a nice balance between functionality and ease-of-use.
 
 <p align="center">
-  <img src="https://choyvpa.peepphysics.com/documentation_images/01_comparing_libraries.png" width="100%" alt="comparison">
+  <img src="https://dr3ngl797z54v.cloudfront.net/peeps/01_comparing_libraries.png" width="100%" alt="comparison">
 </p>
 
 ## Benefits
@@ -36,7 +36,7 @@ Peeps is a programmatic animation library that runs on Blender 2.80 and Python 3
 - It takes advantage of all the built-in functionality in Blender 2.80, including a GUI that illustrates what rendered animations would look like without actually rendering any videos. This rapid feedback makes coding animations with peeps very fast compared to alternative methods.
 
 <p align="center">
-  <img src="https://choyvpa.peepphysics.com/documentation_images/02_rapid_feedback.gif" width="100%" alt="rapid feedback">
+  <img src="https://dr3ngl797z54v.cloudfront.net/peeps/02_rapid_feedback.gif" width="100%" alt="rapid feedback">
 </p>
 
 ## Drawbacks
@@ -61,13 +61,13 @@ C:\Users\<YOUR_USERNAME_HERE>\AppData\Roaming\Blender Foundation\Blender\2.80\co
 and replace `startup.blend` and `userpref.blend` with the corresponding files in this repository. This will provide you with all the custom settings I use in Blender that are conducive to scripting animations. If you can't see the `AppData` folder, you may need to [enable viewing hidden folders](https://support.microsoft.com/en-us/help/4028316/windows-view-hidden-files-and-folders-in-windows-10).
 
 <p align="center">
-  <img src="https://choyvpa.peepphysics.com/documentation_images/03_startup_userpref.png" width="100%" alt="startup.blend and userpref.blend">
+  <img src="https://dr3ngl797z54v.cloudfront.net/peeps/03_startup_userpref.png" width="100%" alt="startup.blend and userpref.blend">
 </p>
 
 Once you've done that, if you have a designated shortcut for Blender that you would like to use, right-click the shortcut and click on `Properties`. Then, in the `Shortcut` tab, go to the field labeled `Target` and at the end of it, append a `" -con"` without the quotes, as in the image below. This will ensure the Blender console (an extremely useful printing/debugging tool) opens with the GUI by default everytime you run Blender. Also, if you would like to use LaTeX (recommended), click on `Advanced...` and make sure `Run as administrator` is checked. This will allow you to render LaTeX directly through Blender.
 
 <p align="center">
-  <img src="https://choyvpa.peepphysics.com/documentation_images/04_properties_console.png" width="100%" alt="Blender shortcut properties">
+  <img src="https://dr3ngl797z54v.cloudfront.net/peeps/04_properties_console.png" width="100%" alt="Blender shortcut properties">
 </p>
 
 ## Installing Python
@@ -79,7 +79,7 @@ Peeps has only been tested on Python 3.7.3, so any other version of Python 3 sho
 Download and install FFmpeg [here](https://ffmpeg.org/download.html) by navigating to the `Get packages & executable files` for Windows and click one of the links for Windows builds. From there, unzip the zipped build into a folder and move it into a directory that will never change. Copy the address of the `bin` folder within the unzipped FFmpeg folder (this is where `ffmpeg.exe` lives) and add it to `Path` within your system environment variables, as shown below.
 
 <p align="center">
-  <img src="https://choyvpa.peepphysics.com/documentation_images/05_FFmpeg.png" width="100%" alt="FFmpeg in environment variables">
+  <img src="https://dr3ngl797z54v.cloudfront.net/peeps/05_FFmpeg.png" width="100%" alt="FFmpeg in environment variables">
 </p>
 
 ## Installing LaTeX
@@ -102,13 +102,13 @@ pip3 install -r requirements.txt
 The first will install peeps and the second will install other necessary Python packages. You will also need to navigate to your environment variables and add a user variable called `PYTHONPATH` with a value of the directory containing peeps as well as the path for the peeps folder itself, each separated by a semicolon (see image below). This just tells Python where to look for the peeps module and its child modules.
 
 <p align="center">
-  <img src="https://choyvpa.peepphysics.com/documentation_images/06_PYTHONPATH.png" width="100%" alt="PYTHONPATH in environment variables">
+  <img src="https://dr3ngl797z54v.cloudfront.net/peeps/06_PYTHONPATH.png" width="100%" alt="PYTHONPATH in environment variables">
 </p>
 
 The last step before we get rollin' is to open the `constants.py` file in an editor and change `SVG_DIR`, `OUT_DIR`, and `EXT_DIR` to be wherever you want LaTeX SVG's stored, where you want output renders stored, and where you will store external .blend files containing complicated objects, respectively.
 
 <p align="center">
-  <img src="https://choyvpa.peepphysics.com/documentation_images/07_constants.py.png" width="100%" alt="adjusting constants.py">
+  <img src="https://dr3ngl797z54v.cloudfront.net/peeps/07_constants.py.png" width="100%" alt="adjusting constants.py">
 </p>
 
 # Trying Out Your First Script
@@ -168,13 +168,13 @@ Here, we're creating a `TextHelvetica` object and animating it in with the `titl
 So that explains the script, but... how the heck do we run it?! Open up Blender and while hovering over the menu just above the black box (formally, the text editor), scroll your mouse wheel until you see the `Open` option. Click it and navigate into where you just saved your first script and open it up. You should now see your script in the Blender text editor.
 
 <p align="center">
-  <img src="https://choyvpa.peepphysics.com/documentation_images/08_opening_script.gif" width="100%" alt="opening script in Blender">
+  <img src="https://dr3ngl797z54v.cloudfront.net/peeps/08_opening_script.gif" width="100%" alt="opening script in Blender">
 </p>
 
 Now, if you followed my recommendation above regarding replacing the default `userpref.blend`, you can use the keyboard shortcut `Alt+F` while hovering your mouse within the Blender text editor to run your script. Alternatively, you can scroll all the way to the end of the editor menu and click `Run Script`. You should now see the following on your screen:
 
 <p align="center">
-  <img src="https://choyvpa.peepphysics.com/documentation_images/09_it_works.png" width="100%" alt="it works!">
+  <img src="https://dr3ngl797z54v.cloudfront.net/peeps/09_it_works.png" width="100%" alt="it works!">
 </p>
 
 ## Rendering Animations
@@ -188,10 +188,10 @@ Exciting! We've come a long way, but how do we take this to the finish line? Wha
 To reload the script into Blender, hover over the Blender text editor and apply the keyboard shortcut `Alt+R` twice to reload the script and then `Alt+F` to run it again. This time, you'll notice Blender will freeze up. If you look at the Blender console, which is the second Blender window separate from the GUI, you'll see some `Saved` messages start to pop up like this:
 
 <p align="center">
-  <img src="https://choyvpa.peepphysics.com/documentation_images/10_saving_images.png" width="100%" alt="images being rendered out">
+  <img src="https://dr3ngl797z54v.cloudfront.net/peeps/10_saving_images.png" width="100%" alt="images being rendered out">
 </p>
 
-Images of each frame are now physically being rendered from Blender onto your hard drive at the `OUT_DIR` directory. Once all the frames of each animation have been created, peeps will run `ffmpeg` on the frames to concatenate them all into a video and then delete the individual frames. It might take a minute or two to complete, but by the end of it, you'll have yourself [one snazzy animation](https://choyvpa.peepphysics.com/documentation_images/11_sample_video.mp4)!
+Images of each frame are now physically being rendered from Blender onto your hard drive at the `OUT_DIR` directory. Once all the frames of each animation have been created, peeps will run `ffmpeg` on the frames to concatenate them all into a video and then delete the individual frames. It might take a minute or two to complete, but by the end of it, you'll have yourself [one snazzy animation](https://dr3ngl797z54v.cloudfront.net/peeps/11_sample_video.mp4)!
 
 # Going Beyond the Basics
 
