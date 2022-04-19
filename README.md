@@ -119,7 +119,7 @@ We're finally ready to start animating! Choose a directory to place your Blender
 import importlib
 import peeps
 importlib.reload(peeps)
-from peeps import *  # pylint: disable=unused-wildcard-import
+from peeps import *
 (start_time, f, cam) = script_init(__file__, False)
 
 def intro():
@@ -138,7 +138,7 @@ Let's go over what all this means. The beginning of each script should contain a
 import importlib
 import peeps
 importlib.reload(peeps)
-from peeps import *  # pylint: disable=unused-wildcard-import
+from peeps import *
 (start_time, f, cam) = script_init(__file__, False)
 ```
 
