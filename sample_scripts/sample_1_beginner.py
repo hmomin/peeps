@@ -1,7 +1,9 @@
 import importlib
 import peeps
+
 importlib.reload(peeps)
-from peeps import *  # pylint: disable=unused-wildcard-import
+from peeps import *
+
 (start_time, f, cam) = script_init(__file__, False)
 
 # a block moving around with a lamp in the midst
@@ -10,9 +12,9 @@ def block_with_lamp():
     block = Block(6, 6, 6, ORIGIN, RED)
     # just looks like a square - we can tell it's a block for sure once we rotate it.
     # we'll rotate it about the y-axis first by 45 degrees.
-    block.rotate(Y, PI/4)
+    block.rotate(Y, PI / 4)
     # looks a bit weird... - how about we now rotate it about the x-axis?
-    block.rotate(X, PI/6)
+    block.rotate(X, PI / 6)
     # looks a bit more like a block, but we're still missing some perspective.
     # we can use a Lamp to help out.
     Lamp((-1, 1, 7))
@@ -22,7 +24,7 @@ def block_with_lamp():
     # a 4-second animation
     f.play([block.fadeShift], [[RED, -7]], tf=4)
     # let's animate a swift rotation of the block.
-    f.play([block.rotate], [[Z, 6*PI]], tf=4)
+    f.play([block.rotate], [[Z, 6 * PI]], tf=4)
     # we can even make the block transparent! let's put a green Ball inside the block
     ball = Ball(2)
     ball.color(GREEN)
@@ -34,6 +36,7 @@ def block_with_lamp():
     # that's enough for this one - to delete everything and reset the scene, change the
     # end_scene() call below to accept True as its last argument.
     return end_scene(f, dir(), inspect.stack(), False)
+
 
 # graphing a simple function
 def graphing_function():
@@ -67,19 +70,25 @@ def graphing_function():
     # after.
     graph.curve.delete()
     # so let's define a more prominent cosine function and draw it out
-    bolderCosine = lambda x: 5*np.cos(x) + 7
+    bolderCosine = lambda x: 5 * np.cos(x) + 7
     graph.draw(f, bolderCosine)
     # neat! let's try one last function: a simple exponential. we can pass in our lambda
     # function directly into the graph.draw() function without defining it beforehand.
     # also, we can adjust xTruncate and yTruncate so our graph takes up more space.
     graph.curve.delete()
     graph.draw(
-        f, lambda x: np.exp(x/9), runtime=5, xTruncate=0, yTruncate=0, curveColor=GREEN
+        f,
+        lambda x: np.exp(x / 9),
+        runtime=5,
+        xTruncate=0,
+        yTruncate=0,
+        curveColor=GREEN,
     )
     # that completes this one - let's fadeShift everything downwards and call it a day.
     f.multiplay([graph, graph.curve], "fadeShift", [[BLACK, 0, -5]])
     # remember to change the end_scene() call argument to True to clean up the scene.
     return end_scene(f, dir(), inspect.stack(), False)
+
 
 # simple latex derivation - requires knowledge of latex
 def latex_derivation():
@@ -87,20 +96,24 @@ def latex_derivation():
     startingTex = Tex("f(t)=3\\sin{(t)}+t^2", 0.7, False, (0, 10, 0), True, f)
     # what's the derivative of the function with respect to time?
     derivativeTex = Tex(
-        "\\frac{d}{dt}f(t)=\\frac{d}{dt}\\left[3\\sin{(t)}+t^2\\right]",\
-        0.7, False, (1.3, 5, 0))
+        "\\frac{d}{dt}f(t)=\\frac{d}{dt}\\left[3\\sin{(t)}+t^2\\right]",
+        0.7,
+        False,
+        (1.3, 5, 0),
+    )
     # the previous Tex is dark - we haven't colored it yet, because we want to morph
     # it in from the previous Tex - let's do it
     derivativeTex.morphFrom(f, startingTex)
     # simplify and morph that in from the previous Tex
     simplifyTex1 = Tex(
-        "\\frac{d}{dt}f(t)=3\\frac{d}{dt}\\left[\\sin{(t)}\\right]+\\frac{d}{dt}\\left[t^2\\right]",\
-        0.7, False, (3.4, -1, 0))
+        "\\frac{d}{dt}f(t)=3\\frac{d}{dt}\\left[\\sin{(t)}\\right]+\\frac{d}{dt}\\left[t^2\\right]",
+        0.7,
+        False,
+        (3.4, -1, 0),
+    )
     simplifyTex1.morphFrom(f, derivativeTex)
     # top it off with the answer
-    simplifyTex2 = Tex(
-        "\\frac{d}{dt}f(t)=3\\cos{(t)}+2t",\
-        0.7, False, (-1, -7, 0))
+    simplifyTex2 = Tex("\\frac{d}{dt}f(t)=3\\cos{(t)}+2t", 0.7, False, (-1, -7, 0))
     simplifyTex2.morphFrom(f, simplifyTex1)
     # let's fade everything out and shift it into the screen at the same time.
     # we're going to want to use f.multiplay for this - the same function applied to
@@ -108,13 +121,14 @@ def latex_derivation():
     f.multiplay(
         [startingTex, derivativeTex, simplifyTex1, simplifyTex2],
         "fadeShift",
-        [[BLACK, 0, 0, -5]]
+        [[BLACK, 0, 0, -5]],
     )
     # we don't want those dark objects to continue cluttering the screen.
     # once we're done with them, we can delete them manually or just change the
     # end_scene() call to have True passed in as the last argument.
     delete([startingTex, derivativeTex, simplifyTex1, simplifyTex2])
     return end_scene(f, dir(), inspect.stack(), False)
+
 
 # we can do everything in the previous function with more ease by using the TexManager
 def introduction_to_TexManager():
@@ -123,15 +137,18 @@ def introduction_to_TexManager():
     # add a new Tex in and morph it from the previous.
     # note that we have to pass in relative=False to specify that the origin is absolute,
     # not relative to the previous Tex
-    t.insert("\\frac{d}{dt}f(t)=\\frac{d}{dt}\\left[3\\sin{(t)}+t^2\\right]",
-        (1.3, 5, 0), relative=False)
+    t.insert(
+        "\\frac{d}{dt}f(t)=\\frac{d}{dt}\\left[3\\sin{(t)}+t^2\\right]",
+        (1.3, 5, 0),
+        relative=False,
+    )
     # let's keep going
     t.insert(
         "\\frac{d}{dt}f(t)=3\\frac{d}{dt}\\left[\\sin{(t)}\\right]+\\frac{d}{dt}\\left[t^2\\right]",
-        (3.4, -1, 0), relative=False)
-    t.insert(
-        "\\frac{d}{dt}f(t)=3\\cos{(t)}+2t",
-        (-1, -7, 0), relative=False)
+        (3.4, -1, 0),
+        relative=False,
+    )
+    t.insert("\\frac{d}{dt}f(t)=3\\cos{(t)}+2t", (-1, -7, 0), relative=False)
     # and that's all it took! we now have exactly the same scene from the previous
     # function with half the amount of code. if you ever need to access individual Tex
     # objects, they're found at t.texs. if you need to see what Tex objects are currently
@@ -141,6 +158,7 @@ def introduction_to_TexManager():
     # the objects right after the fadeShift() as well.
     t.fadeShift(True, [BLACK, 0, 0, -5], True)
     return end_scene(f, dir(), inspect.stack(), False)
+
 
 # draw out the electric field lines for two point charges
 def creating_field_lines():
@@ -152,9 +170,7 @@ def creating_field_lines():
     f.multiplay([posCharge, negCharge], "fadeShift", [[A1, -5, -5], [A5, 5, 5]])
     # now let's generate the field lines between the two charges. let's do 8 lines
     # per charge.
-    (fieldLines, _, _) = generateFieldLines(
-        [posCharge, negCharge], numFactor=8
-    )
+    (fieldLines, _, _) = generateFieldLines([posCharge, negCharge], numFactor=8)
     # can't see them... let's give them a yellowish color.
     for line in fieldLines:
         line.color(A3)
@@ -168,6 +184,7 @@ def creating_field_lines():
     # and that just about does it! remember to set the final argument in the end_scene()
     # call below to True to reset the scene.
     return end_scene(f, dir(), inspect.stack(), False)
+
 
 block_with_lamp()
 # graphing_function()

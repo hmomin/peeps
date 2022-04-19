@@ -1,7 +1,9 @@
 import importlib
 import peeps
+
 importlib.reload(peeps)
-from peeps import *  # pylint: disable=unused-wildcard-import
+from peeps import *
+
 (start_time, f, cam) = script_init(__file__, False)
 
 # shifting a ball along a weird path at constant speed
@@ -15,7 +17,7 @@ def ball_shift_by_path():
         (10, -10, 0),
         (-5, -5, 0),
         (-5, 5, 0),
-        (1, 1, 0)
+        (1, 1, 0),
     ]
     path = RelativeNodeWires(relativePathNodes, 0.2)
     path.shift(0, 0, -5)
@@ -33,15 +35,15 @@ def ball_shift_by_path():
         totalLength += mag(node)
     # now that we have the length, dividing it by the animation runtime (10 s) will give
     # us the desired speed of the ball along the path (in units per second)
-    speed = totalLength/10
+    speed = totalLength / 10
     # dividing this speed by the frame rate will give us the magnitude of the ball's
     # shift per frame.
-    frameShift = speed/FRAME_RATE
+    frameShift = speed / FRAME_RATE
     # now all we have to do, in principle, is shift the ball by a magnitude of
     # frameShift on each frame. it's not so easy, however, because we have to worry
-    # about directions and undershooting corners. the most robust way to do this will
-    # probably be with f.video() - it might be possible to do it with the standard
-    # f.play(), but the it'll be difficult to keep the speed of the ball precisely
+    # about directions and undershooting/overshooting corners. the most robust way to do
+    # this will probably be with f.video() - it might be possible to do it with the
+    # standard f.play(), but it'll be difficult to keep the speed of the ball precisely
     # constant.
     curr = ball.origin
     with f.video() as r:
@@ -55,16 +57,16 @@ def ball_shift_by_path():
             # figure out the correct direction to travel in
             direction = mut.Vector(shift).normalized()
             # travel the remaining distance in a frameShift
-            ball.shift(*((frameShift - mag(diff))*direction))
+            ball.shift(*((frameShift - mag(diff)) * direction))
             # render this frame and prepare to move along the next path
             r()
             # what is the total length of the next shift?
             lenShift = mag(shift) - (frameShift - mag(diff))
             # how many steps should we take in this direction? always undershoot with
             # np.floor() instead of np.ceil().
-            numSteps = int(np.floor(lenShift/frameShift))
+            numSteps = int(np.floor(lenShift / frameShift))
             for _ in range(numSteps):
-                ball.shift(*(frameShift*direction))
+                ball.shift(*(frameShift * direction))
                 r()
             # finally, update curr for the next iteration
             curr = addition(shift, curr)
@@ -73,6 +75,7 @@ def ball_shift_by_path():
         ball.shift(*negate(diff))
         r()
     return end_scene(f, dir(), inspect.stack(), False)
+
 
 # moving multiple balls in an elliptical path
 def elliptical_shifts():
@@ -91,16 +94,16 @@ def elliptical_shifts():
     omega = 1
     # we need this value of omega to immediately be instantiated in the lambda functions,
     # so that all of them are really just functions of t
-    x = lambda t, omega=omega: xAxis*np.cos(omega*t)
-    y = lambda t, omega=omega: yAxis*np.sin(omega*t)
+    x = lambda t, omega=omega: xAxis * np.cos(omega * t)
+    y = lambda t, omega=omega: yAxis * np.sin(omega * t)
     z = lambda t, omega=omega: 0
     # now that we have our lambdas, we can instantiate three balls that are split along
     # equal angles of the ellipse
-    angles = interpolate(0, 2*PI, LINEAR, 3)
+    angles = interpolate(0, 2 * PI, LINEAR, 3)
     # with three intervals, we've double-counted 0 and 2*PI
     angles.pop(-1)
     # prepare for list comprehension overload...
-    tVals = [ang/omega for ang in angles]
+    tVals = [ang / omega for ang in angles]
     positions = [(x(t), y(t), z(t)) for t in tVals]
     colors = [RED, GREEN, BLUE]
     fadeShifts = [[col, *pos] for col, pos in zip(colors, positions)]
@@ -111,23 +114,27 @@ def elliptical_shifts():
     # to use phase shifts (ang) to split up appropriate lambda functions for each ball.
     lambs = [
         (
-            lambda t, omega=omega, phi=phi: xAxis*np.cos(omega*t + phi),
-            lambda t, omega=omega, phi=phi: yAxis*np.sin(omega*t + phi),
+            lambda t, omega=omega, phi=phi: xAxis * np.cos(omega * t + phi),
+            lambda t, omega=omega, phi=phi: yAxis * np.sin(omega * t + phi),
             lambda t, omega=omega, phi=phi: 0,
-        ) for phi in angles
+        )
+        for phi in angles
     ]
     # get the arguments in the right format for f.multiplay()
     shiftArgs = [[0, 0, 0, *lamb] for lamb in lambs]
     # note that when shifting with lambda functions, you'll have to use testRender=True
     # if you're interested in the viewport preview, otherwise, when previewing
     # animations, shift() will take the "0, 0, 0" literally
-    f.multiplay(balls, "shift", shiftArgs, tf=2*PI/omega, rate=LINEAR, testRender=True)
+    f.multiplay(
+        balls, "shift", shiftArgs, tf=2 * PI / omega, rate=LINEAR, testRender=True
+    )
     # it looks like nothing happened, because we just took each of the balls full circle!
     # if you try changing tf, you can see multiplay() moving the balls around the
     # elliptical path. what we've shown in this scene is that if you can define
     # a parametric representation for a path as a function of time (x(t), y(t), z(t)),
     # you can shift anything along that path!
     return end_scene(f, dir(), inspect.stack(), False)
+
 
 # a weird sinusoidal circle shift
 def sinusoidal_circle():
@@ -145,8 +152,8 @@ def sinusoidal_circle():
     # back around to PI. this suggests that we should have the 0 angle at the top with
     # PI and -PI extending back and forth around the circle. to be consistent with the
     # x-y coordinate system, we'll use a phase shift of PI/2.
-    x = lambda theta: dist*np.cos(theta + PI/2)
-    y = lambda theta: dist*np.sin(theta + PI/2)
+    x = lambda theta: dist * np.cos(theta + PI / 2)
+    y = lambda theta: dist * np.sin(theta + PI / 2)
     # now, all we have to do is change the ball's position to (x(ang), y(ang), 0) for
     # each ang in angs and render out each frame
     with f.video() as r:
@@ -154,6 +161,7 @@ def sinusoidal_circle():
             ball.shift(*subtraction((x(ang), y(ang), 0), ball.origin))
             r()
     return end_scene(f, dir(), inspect.stack(), False)
+
 
 # cross product evaluations in 3D
 def cross_product_demo():
@@ -163,7 +171,7 @@ def cross_product_demo():
     # we'll move to a clearer view and rotate the y-label at the same time
     f.play(
         [camQuatTransform, graph.y.rotateLabels],
-        [[(23.638, 22.556, 25.640), (0.3555, 0.1849, 0.4227, 0.8129)], [X, -PI/2]]
+        [[(23.638, 22.556, 25.640), (0.3555, 0.1849, 0.4227, 0.8129)], [X, -PI / 2]],
     )
     # create two vectors, A and B, along the x and y axes, respectively
     A = Vector(1, 0, 0, (15, 0, 0), A1)
@@ -175,9 +183,7 @@ def cross_product_demo():
     C = Vector(*CNormal, (0, 0, 15), A7)
     f.play([C.shift], [[0, 0, -15]])
     # create a legend in the top right corner. start with the colors.
-    blocks = [
-        Block(1, 1, 1, (-13, 0, z)) for z in np.arange(0, 7, 2.5)
-    ]
+    blocks = [Block(1, 1, 1, (-13, 0, z)) for z in np.arange(0, 7, 2.5)]
     for block, col in zip(blocks, [A1, A4, A7]):
         f.play([block.color], [[col]], tf=0.5)
     # working with Texs in 3D requires some finagling...
@@ -187,14 +193,10 @@ def cross_product_demo():
         "\\overrightarrow{\\textbf{A}}\\times\\overrightarrow{\\textbf{B}}",
     ]
     # finagle shifts until they're desirable
-    shifts = [
-        (-1.3, 1.3, 0),
-        (-1.3, 1.3, 0.3),
-        (-2.5, 2.5, 0.5)
-    ]
+    shifts = [(-1.3, 1.3, 0), (-1.3, 1.3, 0.3), (-2.5, 2.5, 0.5)]
     texs = [
-        Tex(expression, 0.5, origin=addition(block.origin, shift))\
-            for expression, block, shift in zip(expressions, blocks, shifts)
+        Tex(expression, 0.5, origin=addition(block.origin, shift))
+        for expression, block, shift in zip(expressions, blocks, shifts)
     ]
     for t in texs:
         t.cameraTrack()
@@ -225,7 +227,7 @@ def cross_product_demo():
     # and noting how the cross product changes. let's start by normalizing C to get
     # our rotation axis.
     rotationAxis = tuple(mut.Vector(C.normal).normalized())
-    rotationStack = A.init_rotate(0, 4, EASE_IN_OUT, rotationAxis, 2*PI)
+    rotationStack = A.init_rotate(0, 4, EASE_IN_OUT, rotationAxis, 2 * PI)
     # we'll finish this one up similarly to how we did the transforms
     with f.video() as r:
         while len(rotationStack) > 0:
@@ -240,6 +242,7 @@ def cross_product_demo():
     # looks like nothing happened, because we rotated A in a full circle about C - you'll
     # want to render this one out to see the full picture
     return end_scene(f, dir(), inspect.stack(), False)
+
 
 ball_shift_by_path()
 # elliptical_shifts()

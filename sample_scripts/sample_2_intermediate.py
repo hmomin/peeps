@@ -1,14 +1,16 @@
 import importlib
 import peeps
+
 importlib.reload(peeps)
-from peeps import *  # pylint: disable=unused-wildcard-import
+from peeps import *
+
 (start_time, f, cam) = script_init(__file__, False)
 
 # manipulating vectors to do weird things
 def manipulating_vectors():
     # let's create some vectors stretching out in many angles. first, we need to figure
     # out what those angles are via interpolation.
-    angs = interpolate(0, 2*PI, LINEAR, 8)
+    angs = interpolate(0, 2 * PI, LINEAR, 8)
     # by having 8 intervals between 0 and 2*PI inclusive, we've double counted the 0
     # angle. let's fix that.
     angs.pop(-1)
@@ -26,7 +28,7 @@ def manipulating_vectors():
         for ang in angs:
             # ...create a vector pointing in the direction of the angle and with a
             # magnitude of 5
-            vecs.append(Vector(5*np.cos(ang), 5*np.sin(ang), 0, ORIGIN, OCEAN))
+            vecs.append(Vector(5 * np.cos(ang), 5 * np.sin(ang), 0, ORIGIN, OCEAN))
             # wait for 10 frames
             for _ in range(10):
                 r()
@@ -36,14 +38,14 @@ def manipulating_vectors():
     shifts = []
     for ang in angs:
         # we'll shift a distance of 7 away from the origin
-        shifts.append([7*np.cos(ang), 7*np.sin(ang), 0])
+        shifts.append([7 * np.cos(ang), 7 * np.sin(ang), 0])
     # now call multiplay()
     f.multiplay(vecs, "shift", shifts)
     # note that the origin of each vector is the orange dot at the tail of the vector.
     # you can see the origin of any object in Blender by clicking on it and looking for
     # the orange dot. rotating any object rotates it about its origin. for instance,
     # let's rotate each vector about its origin by an angle of 90 degrees.
-    f.multiplay(vecs, "rotate", [[Z, PI/2]])
+    f.multiplay(vecs, "rotate", [[Z, PI / 2]])
     # since each vector has a different origin, each one rotated about its respective
     # tail by PI/2 radians. we can actually change the origins of all the vectors too
     # by calling changeOriginTo(). first, we should probably record the current origins
@@ -64,7 +66,7 @@ def manipulating_vectors():
     # the Blobject implementation of rotate(), while Vector.rotate() calls the Vector
     # implementation, which is really just a transform() call (we'll get to that in a
     # sec).
-    f.multiplay(vecs, "superRotate", [[Z, 2*PI]])
+    f.multiplay(vecs, "superRotate", [[Z, 2 * PI]])
     # now, let's restore the original origins of the vectors. in case you've never seen
     # it before, we can use zip() to iterate through two iterables concurrently.
     for vec, og in zip(vecs, originalOrigins):
@@ -87,7 +89,7 @@ def manipulating_vectors():
     # long list of vecs repeated twice - no nested lists. what function are we calling
     # on each object in objs? let's call shift() on the first half of objs (all the
     # vectors) and transform() on the second half (again, all the vectors).
-    funcs = [*len(vecs)*["shift"], *len(vecs)*["transform"]]
+    funcs = [*len(vecs) * ["shift"], *len(vecs) * ["transform"]]
     # now, there's a lot going on there, but you can see that it works by calling
     # print(funcs). we start with ["shift"] and multiply it by len(vecs), which is 8 here
     # to get ["shift", "shift", "shift", "shift", "shift", "shift", "shift", "shift"].
@@ -97,7 +99,7 @@ def manipulating_vectors():
     for _ in vecs:
         args.append([10])
     # those are all the puzzle pieces! we can even specify separate Bezier rates for each
-    # function call, but that would seriosly be overkill here - let's just call it.
+    # function call, but that would seriously be overkill here - let's just call it.
     f.superplay(objs, funcs, args)
     # you can tell it stacked all the vectors on top of each other by moving each vector
     # out of the way to expose the ones underneath (simply select a vector and press 'G'
@@ -112,10 +114,11 @@ def manipulating_vectors():
     # finally, let's pop the vectors out of the origin while fading them to black
     fadeShifts = []
     for ang in angs:
-        fadeShifts.append([BLACK, 5*np.cos(ang), 5*np.sin(ang)])
+        fadeShifts.append([BLACK, 5 * np.cos(ang), 5 * np.sin(ang)])
     f.multiplay(vecs, "fadeShift", fadeShifts)
     delete(vecs)
     return end_scene(f, dir(), inspect.stack(), False)
+
 
 # exploring graphs in 3D
 def exploring_graphspace():
@@ -147,13 +150,13 @@ def exploring_graphspace():
     # so that it's more easily discernible. we can do this by calling rotateLabel()
     # on the y-axis of the graph. note that the labels don't rotate the way you'd expect
     # them to - this is a tricky bug in the library that i have yet to fix...
-    f.play([graph.y.rotateLabels], [[X, -PI/2]])
+    f.play([graph.y.rotateLabels], [[X, -PI / 2]])
     # now, let's take it up a notch and demonstrate the circular magnetic field around a
     # straight current-carrying conductor. first, we need the wire, of course. it just
     # needs to be long enough to cover the whole screen.
     wire = Cylinder(0.2, 41, (0, -7, 0))
     # let's rotate it so it travels along the y-axis and color it brown
-    wire.rotate(X, PI/2)
+    wire.rotate(X, PI / 2)
     wire.color(BROWN)
     # let's shift it out and then we can animate it shifting in
     wire.shift(0, -42)
@@ -175,22 +178,22 @@ def exploring_graphspace():
     # we're now ready to generate the magnetic field vectors at specific intervals along
     # the y-axis to complete the scene. let's use intervals that are 10 units apart.
     # it'll be useful to go a bit out of bounds in the back for an animation that we're
-    # going to perform in a sec. first, let's figure out where we want to put the 
+    # going to perform in a sec. first, let's figure out where we want to put the
     # magnetic field vectors
-    angs = interpolate(0, 2*PI, LINEAR, 8)
+    angs = interpolate(0, 2 * PI, LINEAR, 8)
     angs.pop(-1)
     fieldVecs = []
     with f.video() as r:
         for yVal in range(-40, 11, 10):
             for ang in angs:
                 # compute the position of the relevant magnetic field vector
-                position = (5*np.sin(ang), yVal, 5*np.cos(ang))
+                position = (5 * np.sin(ang), yVal, 5 * np.cos(ang))
                 # just point it radially away - we'll rotate it in a sec
                 components = (np.sin(ang), 0, np.cos(ang))
                 fieldVecs.append(Vector(*components, position, A3, 0.05, 0.3))
                 # rotate the fieldVec by 90 degrees, so it points in the correct
                 # direction per the right-hand-rule.
-                fieldVecs[-1].rotate(Y, PI/2)
+                fieldVecs[-1].rotate(Y, PI / 2)
                 # render the current frame three times
                 for _ in range(3):
                     r()
@@ -209,13 +212,14 @@ def exploring_graphspace():
     # will rotate the vectors about the axis itself! the entire animation is probably
     # best done through f.superplay().
     objs = [*fieldVecs, *fieldVecs]
-    funcs = [*len(fieldVecs)*["shift"], *len(fieldVecs)*["superRotate"]]
-    args = [*len(fieldVecs)*[[0, 10]], *len(fieldVecs)*[[Y, PI]]]
+    funcs = [*len(fieldVecs) * ["shift"], *len(fieldVecs) * ["superRotate"]]
+    args = [*len(fieldVecs) * [[0, 10]], *len(fieldVecs) * [[Y, PI]]]
     # i want the call to f.superplay() to perform with a LINEAR rate, so that looping
     # the video indefinitely appears completely smooth...
     f.superplay(objs, funcs, args, tf=4, rateArray=LINEAR)
     # a super clean animation in three dimensions without all that much code!
     return end_scene(f, dir(), inspect.stack(), False)
+
 
 # a simple circuit
 def setting_up_a_circuit():
@@ -228,15 +232,11 @@ def setting_up_a_circuit():
     # let's rotate the resistor and fadeShift it to the right at the same time. we can
     # do this easily with f.play(). note how we pass in a separate set of arguments
     # to resistor.rotate and a separate set to resistor.fadeShift
-    f.play([resistor.rotate, resistor.fadeShift], [[Z, PI/2], [WHITE, 10]])
+    f.play([resistor.rotate, resistor.fadeShift], [[Z, PI / 2], [WHITE, 10]])
     # now how do we connect the two components together? we do so using NodeWires.
     # NodeWires simply draws out a curve between multiple nodes we specify via the grid
     # in the UI. NodeWires also smoothes out the corners between nodes.
-    bottomRight = NodeWires([
-        (5, -7, 0),
-        (10, -7, 0),
-        (10, -5, 0)
-    ], thickness=0.2)
+    bottomRight = NodeWires([(5, -7, 0), (10, -7, 0), (10, -5, 0)], thickness=0.2)
     # let's shift it backwards and animate it fadeShifting in
     bottomRight.shift(0, 0, -5)
     f.play([bottomRight.fadeShift], [[WHITE, 0, 0, 5]])
@@ -247,11 +247,7 @@ def setting_up_a_circuit():
     # i realized over time that NodeWires can be a bit mentally taxing with having to
     # keep track of what feels like a million positions. much easier is using something
     # i designed as a result called RelativeNodeWires, one of my favorite Blobjects.
-    topRight = RelativeNodeWires([
-        (10, 5, 0),
-        (0, 4, 0),
-        (-5, 0, 0)
-    ], thickness=0.2)
+    topRight = RelativeNodeWires([(10, 5, 0), (0, 4, 0), (-5, 0, 0)], thickness=0.2)
     # the way it works is you only have to specify the absolute position of the first
     # node - every node after that is simply relative to the previous node. let's
     # animate this connection in.
@@ -262,32 +258,31 @@ def setting_up_a_circuit():
     # we'll fade it in as a gentle green, but first, we need some wiring. the way i like
     # to do this with ammeters/voltmeters is to just have wiring go straight through the
     # meter and lift the meter slightly above the wiring as a time-saving visual hack.
-    leftWires = RelativeNodeWires([
-        (-5, 9, 0),
-        (-5, 0, 0),
-        (0, -16, 0),
-        (5, 0, 0)
-    ], thickness=0.2)
+    leftWires = RelativeNodeWires(
+        [(-5, 9, 0), (-5, 0, 0), (0, -16, 0), (5, 0, 0)], thickness=0.2
+    )
     # let's shift the wiring/ammeter to the left without rendering
     f.multiplay([leftWires, ammeter], "shift", [[-10]], render=False)
     # now let's fadeShift them in as an animation
-    f.multiplay([leftWires, ammeter], "fadeShift",
-        [[WHITE, 10], [brighter(GREEN, 10), 10]])
+    f.multiplay(
+        [leftWires, ammeter], "fadeShift", [[WHITE, 10], [brighter(GREEN, 10), 10]]
+    )
     # we now have a closed circuit, but let's give it a voltmeter for a finishing touch.
     # we'll have the voltmeter measure the voltage across the capacitor.
     voltmeter = Voltmeter(2, (0, 0, 0.2))
     # gotta add some wiring too - let's have it stretch halfway and then we'll shift in
     # the rest of the way.
-    voltmeterWires = RelativeNodeWires([
-        (5, 6, 0),
-        (0, -6, 0),
-        (-10, 0, 0),
-        (0, 6, 0)
-    ], thickness=0.2)
-    f.multiplay([voltmeterWires, voltmeter], "fadeShift",
-        [[WHITE, 0, 3], [brighter(GREEN, 10), 0, 3]])
+    voltmeterWires = RelativeNodeWires(
+        [(5, 6, 0), (0, -6, 0), (-10, 0, 0), (0, 6, 0)], thickness=0.2
+    )
+    f.multiplay(
+        [voltmeterWires, voltmeter],
+        "fadeShift",
+        [[WHITE, 0, 3], [brighter(GREEN, 10), 0, 3]],
+    )
     # and that completes our circuit.
     return end_scene(f, dir(), inspect.stack(), False)
+
 
 # simulating electrodynamics between charged particles
 def electrodynamics():
@@ -307,9 +302,9 @@ def electrodynamics():
         charges.append(
             PointCharge(
                 1,
-                (20*np.random.uniform(-1, 1), 10*np.random.uniform(-1, 1), 0),
+                (20 * np.random.uniform(-1, 1), 10 * np.random.uniform(-1, 1), 0),
                 chargeStr,
-                theCharge
+                theCharge,
             )
         )
         if isPositive:
@@ -319,9 +314,11 @@ def electrodynamics():
     # now that the charges are in place, let's simulate some dynamics! it's as simple
     # as calling a function. you'll definitely have to wait for it to iterate through
     # each frame and compute velocities/accelerations though...
-    simulateElectrodynamics(f, charges, initialMovement=3, showForces=False, tf=11,
-        allowZMovement=False)
+    simulateElectrodynamics(
+        f, charges, initialMovement=3, showForces=False, tf=11, allowZMovement=False
+    )
     return end_scene(f, dir(), inspect.stack(), False)
+
 
 manipulating_vectors()
 # exploring_graphspace()
