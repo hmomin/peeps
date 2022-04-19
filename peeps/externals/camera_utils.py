@@ -105,13 +105,13 @@ def init_camLoc(
     v = (newAxis - ogAxis) / (tf - t0)
     if xLam == None or yLam == None or zLam == None:
 
-        def xLam(t):  # pylint: disable=function-redefined
+        def xLam(t):
             return ogAxis[0] + (t - t0) * v[0]
 
-        def yLam(t):  # pylint: disable=function-redefined
+        def yLam(t):
             return ogAxis[1] + (t - t0) * v[1]
 
-        def zLam(t):  # pylint: disable=function-redefined
+        def zLam(t):
             return ogAxis[2] + (t - t0) * v[2]
 
     stack = deque()
@@ -164,13 +164,13 @@ def init_camAngles(
     # default lambda is a SLERP between (x1, y1, z1) and (x2, y2, z2)
     if rLam == None or pLam == None or tLam == None:
 
-        def rLam(t):  # pylint: disable=function-redefined
+        def rLam(t):
             return ogAxis[0] + (t - t0) * v[0]
 
-        def pLam(t):  # pylint: disable=function-redefined
+        def pLam(t):
             return ogAxis[1] + (t - t0) * v[1]
 
-        def tLam(t):  # pylint: disable=function-redefined
+        def tLam(t):
             return ogAxis[2] + (t - t0) * v[2]
 
     stack = deque()

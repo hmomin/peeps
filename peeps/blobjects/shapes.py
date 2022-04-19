@@ -1,5 +1,5 @@
-import bpy # pylint: disable=import-error
-import bmesh # pylint: disable=import-error
+import bpy
+import bmesh
 import mathutils as mut
 import numpy as np
 import os
@@ -1600,13 +1600,13 @@ class Vector(Blobject):
         v = (newAxis - ogAxis) / (tf - t0)
         if x == None or y == None or z == None:
 
-            def x(t):  # pylint: disable=function-redefined
+            def x(t):
                 return ogAxis[0] + (t - t0) * v[0]
 
-            def y(t):  # pylint: disable=function-redefined
+            def y(t):
                 return ogAxis[1] + (t - t0) * v[1]
 
-            def z(t):  # pylint: disable=function-redefined
+            def z(t):
                 return ogAxis[2] + (t - t0) * v[2]
 
         stack = deque()
