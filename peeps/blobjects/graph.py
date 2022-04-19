@@ -1,4 +1,4 @@
-import bpy # pylint: disable=import-error
+import bpy
 import math
 import mathutils as mut
 import numpy as np

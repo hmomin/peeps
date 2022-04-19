@@ -1,4 +1,4 @@
-import bpy # pylint: disable=import-error
+import bpy
 import os
 import mathutils as mut
 import time

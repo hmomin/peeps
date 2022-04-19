@@ -1,4 +1,4 @@
-import bpy # pylint: disable=import-error
+import bpy
 from constants import C, D, ORIGIN
 from blobjects.blobject import Blobject
 
