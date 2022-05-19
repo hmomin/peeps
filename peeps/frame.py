@@ -64,12 +64,14 @@ class Frame(object):
             function: renders out images if self.render is True.
         """
         # enter context manager
-        if self.render:
-            self.start()
-        yield self.rYield
+        try:
+            if self.render:
+                self.start()
+            yield self.rYield
         # exit context manager
-        if self.render:
-            self.stop()
+        finally:
+            if self.render:
+                self.stop()
 
     def rYield(self):
         """
