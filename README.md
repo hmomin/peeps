@@ -4,6 +4,7 @@
 
 # Table of Contents
 
+- [Table of Contents](#table-of-contents)
 - [Introduction](#introduction)
   - [Benefits](#benefits)
   - [Drawbacks](#drawbacks)
@@ -17,7 +18,7 @@
 - [Trying Out Your First Script](#trying-out-your-first-script)
   - [Running the Script](#running-the-script)
   - [Rendering Animations](#rendering-animations)
-  - [Going Beyond the Basics](#going-beyond-the-basics)
+- [Going Beyond the Basics](#going-beyond-the-basics)
 - [Contributing](#contributing)
 - [License](#license)
 
