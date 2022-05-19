@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Request a new feature for Manim
+about: Request a new feature for Peeps
 title: ""
 labels: new feature
 assignees: ''
